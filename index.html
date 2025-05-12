@@ -65,13 +65,26 @@
             padding: 10px;
             }
         }
+
+        img[alt="downloadButton"] {
+            cursor: pointer;
+            margin-top: 20px;
+            width: 150px;
+            height: auto;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        img[alt="downloadButton"]:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body>
     <h1>PIXEL GENERATOR</h1>
     <input type="text" class="js-input-field" onkeydown="generateText(event)">
     <p class="js-output-field"></p></body></br>
-    <button onclick="downloadAsImage();">Download As Image</button>
+    <img src="button.png" alt="downloadButton" onclick="downloadAsImage();">
+
     <script>
         function generateText(event) {
             let inputElement1 = document.querySelector('.js-input-field');
