@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+        body {
+            font-family: "Press Start 2P", system-ui;
+            text-align: center;
+            margin-top: 25px;
+            background-image: url('https://i.pinimg.com/originals/10/51/fd/1051fd81aa6faba8e1525b461dba18d7.gif');
+            background-repeat: no-repeat;
+            background-size: cover;
+            color: #fffdfd;
+            background-attachment: fixed;
+        }
+        .js-input-field {
+            padding: 10px;
+            font-size: 10px;
+            display: block;
+            margin: 0 auto;
+            background-color: transparent;
+            backdrop-filter: blur(5px);
+            color: #fff;
+            width: 500px;
+        }
+
+        .js-output-field {
+            font-family: "Press Start 2P", system-ui;
+            margin-top: 20px;
+            font-size: 20px;
+            color: #fffdfd;
+            padding: 20px;
+            display: inline-block;
+            width: 90%;
+            max-width: 500px;
+            height: auto;
+            overflow: auto;
+            word-wrap: break-word;
+            line-height: 1.5;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 768px) {
+            .js-input-field {
+            width: 90%;
+            font-size: 12px;
+            }
+            .js-output-field {
+            font-size: 16px;
+            padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .js-input-field {
+            width: 100%;
+            font-size: 10px;
+            }
+            .js-output-field {
+            font-size: 14px;
+            padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>PIXEL GENERATOR</h1>
+    <input type="text" class="js-input-field" onkeydown="generateText(event)">
+    <p class="js-output-field"></p></body></br>
+    <button onclick="downloadAsImage();">Download As Image</button>
+    <script>
+        function generateText(event) {
+            let inputElement1 = document.querySelector('.js-input-field');
+            let inputValue1 = inputElement1.value + event.key;
+            if (!event.ctrlKey && !event.altKey && event.key.length === 1) {
+            document.querySelector('.js-output-field').innerHTML = inputValue1;
+            } else if (event.key === "Backspace") {
+            document.querySelector('.js-output-field').innerHTML = inputElement1.value.slice(0, -1);
+            }
+        }
+
+        function downloadAsImage() {
+            const outputField = document.querySelector('.js-output-field');
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            const style = window.getComputedStyle(outputField);
+
+            canvas.width = outputField.offsetWidth;
+            canvas.height = outputField.offsetHeight;
+
+            context.fillStyle = style.backgroundColor || '#000';
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+            context.font = `${style.fontSize} ${style.fontFamily}`;
+            context.fillStyle = style.color;
+            context.textAlign = 'center';
+            context.textBaseline = 'top';
+            const words = outputField.textContent.split(' ');
+            let line = '';
+            let y = 0;
+
+            for (let i = 0; i < words.length; i++) {
+                const testLine = line + words[i] + ' ';
+                const testWidth = context.measureText(testLine).width;
+
+                if (testWidth > canvas.width && i > 0) {
+                    context.fillText(line, canvas.width / 2, y);
+                    line = words[i] + ' ';
+                    y += parseInt(style.lineHeight || style.fontSize, 10);
+                } else {
+                    line = testLine;
+                }
+            }
+            context.fillText(line, canvas.width / 2, y);
+
+            const link = document.createElement('a');
+            link.download = 'output.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    </script>
+</body>
+</html>
