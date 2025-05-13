@@ -81,19 +81,14 @@
 </head>
 <body>
     <h1>PIXEL GENERATOR</h1>
-    <input type="text" class="js-input-field" onkeydown="generateText(event)">
+    <input type="text" class="js-input-field" oninput="generateText()">
     <p class="js-output-field"></p></body></br>
     <img src="button.png" alt="downloadButton" onclick="downloadAsImage();">
 
     <script>
-        function generateText(event) {
+        function generateText() {
             let inputElement1 = document.querySelector('.js-input-field');
-            let inputValue1 = inputElement1.value + event.key;
-            if (!event.ctrlKey && !event.altKey && event.key.length === 1) {
-            document.querySelector('.js-output-field').innerHTML = inputValue1;
-            } else if (event.key === "Backspace") {
-            document.querySelector('.js-output-field').innerHTML = inputElement1.value.slice(0, -1);
-            }
+            document.querySelector('.js-output-field').innerHTML = inputElement1.value;
         }
 
         function downloadAsImage() {
