@@ -1,6 +1,3 @@
-Absolutely! Here's a cleaner and slightly more polished version of your `README.md` content with improved formatting, consistent structure, and clarity:
-
----
 
 # Pixel Text Generator
 
